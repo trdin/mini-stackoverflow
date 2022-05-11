@@ -1,0 +1,13 @@
+<h1>My Questions:</h1>
+{{#each questions}}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{question}}</h5>
+        <p class="card-text">{{description}}</p>
+        <div><a href="/questions/{{id}}" class="btn btn-primary">Preberi Več</a></div>
+        Objavil: <p>{{postedBy.username}}</p>
+        <p>{{timeCreated}}</p>
+
+    </div>
+</div>
+{{/each}}

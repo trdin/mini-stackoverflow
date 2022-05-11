@@ -1,0 +1,315 @@
+<div id="question-container" data-id="{{id}}">
+    <div class="card">
+        <div class="card-body">
+            {{#if edit }}
+            <button type="button" class="btn btn-danger" id="delete-question" data-id="{{id}}">Delete</button>
+
+            {{/if}}
+            <h5 class="card-title">{{question}}</h5>
+            <p class="card-text">{{description}}</p>
+            <p><img src="{{postedBy.imgPath}}" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%; ">
+                {{postedBy.username}}</p>
+            <p>Time Created: {{timeCreated}}</p>
+            <h2>
+                {{#each tags}}
+                <span class="badge badge-secondary">{{this}}</span>
+                {{/each}}
+            </h2>
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" id="comment" data-id="{{id}}" {{#if session.userId }} {{else}} hidden {{/if}}>
+                        <div class="form-group row">
+                            <h1 for="question" class="col-sm-12 col-form-label">Comment</h1>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="content-comment" name="content" value=""
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input type="submit" class="btn btn-primary ml-3" value="Objavi Komentar">
+                        </div>
+                    </form>
+                    <div class="comments-container">
+                        {{#each comments}}
+                        </hr>
+                        <p>{{postedBy.username}}: {{content}}</p>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{#if correctAnswer}}
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-success" role="alert">
+                Accepted Answer
+            </div>
+            <p>{{correctAnswer.content}}</p>
+            <div {{#if session.userId }} {{else}} hidden {{/if}}>
+                <button type="button" class="btn btn-success upvote" data-id="{{correctAnswer.id}}">Up
+                    {{correctAnswer.upNum}}</button>
+                <button type="button" class="btn btn-danger downvote" data-id="{{correctAnswer.id}}">Down
+                    {{correctAnswer.downNum}}</button>
+            </div>
+            <hr>
+            <p><img src="{{correctAnswer.postedBy.imgPath}}" alt="Avatar"
+                    style="width: 50px; height: 50px; border-radius: 50%; ">
+                {{correctAnswer.postedBy.username}}</p>
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" class="comment-answer" data-id="{{correctAnswer.id}}" {{#if session.userId }}
+                        {{else}} hidden {{/if}}>
+                        <div class="form-group row">
+                            <h1 for="question" class="col-sm-12 col-form-label">Comment</h1>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" id="{{correctAnswer.id}}" name=" content"
+                                    value="" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input type="submit" class="btn btn-primary ml-3" value="Objavi Komentar">
+                        </div>
+                    </form>
+                    <div class="comments-container">
+                        {{#each correctAnswer.comments}}
+                        </hr>
+                        <p>{{postedBy.username}}: {{content}}</p>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="card" {{#if session.userId }} {{else}} hidden {{/if}}>
+        <div class="card-body">
+            <form method="post" id="answer">
+                <div class="form-group row">
+                    <h1 for="question" class="col-sm-12 col-form-label">Answer</h1>
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="content-answer" name="content" value="" required>
+                    </div>
+                </div>
+                <p id="questionId" hidden>{{id}}</p>
+                <div class="form-group row">
+                    <input type="submit" class="btn btn-primary ml-3" value="Objavi Odgovor">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card" id="hidden-container" {{#if answers}} {{else}} hidden {{/if}}>
+        <h2 class="ml-4 mt-2">Answers: </h2>
+        <div class="card-body" id="answer-container">
+            {{#each answers}}
+            <div class="card">
+                <div class="card-body">
+                    {{#if edit }}
+                    <button type="button" class="btn btn-danger delete-answer" data-id="{{id}}">Delete</button>
+                    {{/if}}
+                    {{#if admin }}
+                    <button type="button" class="btn btn-success correct" data-id="{{id}}">Accept the Answer</button>
+                    {{/if}}
+                    <p>{{content}}</p>
+                    <div {{#if ../session.userId }} {{else}} hidden {{/if}}>
+                        <button type="button" class="btn btn-success upvote" data-id="{{id}}">Up {{upNum}}</button>
+                        <button type="button" class="btn btn-danger downvote" data-id="{{id}}">Down {{downNum}}</button>
+                    </div>
+                    <hr>
+                    <p><img src="{{postedBy.imgPath}}" alt="Avatar"
+                            style="width: 50px; height: 50px; border-radius: 50%; ">
+                        {{postedBy.username}}</p>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" class="comment-answer" data-id="{{id}}" {{#if ../session.userId }}
+                                {{else}} hidden {{/if}}>
+                                <div class="form-group row">
+                                    <h1 for="question" class="col-sm-12 col-form-label">Comment</h1>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" id="{{id}}" name="content" value=""
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <input type="submit" class="btn btn-primary ml-3" value="Objavi Komentar">
+                                </div>
+                            </form>
+                            <div class="comments-container">
+                                {{#each comments}}
+                                </hr>
+                                <p>{{postedBy.username}}: {{content}}</p>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+<script>
+    $("#answer").submit(function (e) {
+        e.preventDefault();
+        data = {
+            "content": $("#content-answer").val(),
+            "question": $("#questionId").html()
+        }
+        $.post("../answers", data, function (data) {
+            console.log(data);
+            $("#content").val("")
+            $("#answer-container").prepend(`
+                <div class="card">
+                    <div class="card-body">
+                        <button type="button" class="btn btn-danger delete-answer" data-id="${data._id}" >Delete</button>
+                        <p>${data.content}</p>
+                        <div><button type="button" class="btn btn-success upvote" data-id="${data._id}">Up 0</button>
+                        <button type="button" class="btn btn-danger downvote" data-id="${data._id}">Down 0</button>
+                        </div>
+                        <hr>
+                        <p>Posted by : ${data.postedBy.username}</p>
+                    </div>
+                </div>
+            `)
+            $('#hidden-container').removeAttr('hidden');
+            setEvenets()
+        });
+    });
+    $("#delete-question").click(function (e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        console.log(id);
+
+        $.ajax({
+            type: "DELETE",
+            url: "./" + id,
+            success: function (response) {
+                console.log(response);
+                $("#question-container").html(`
+                 <div class="alert alert-danger" role="alert">
+                     This question was deleted
+                 </div>
+                 `)
+            }
+        });
+    })
+
+
+
+    $(".correct").click(function (e) {
+        e.preventDefault();
+        var answerid = $(this).data("id");
+        var questionid = $("#question-container").data("id");
+        var element = $(this);
+        console.log(answerid);
+        $.ajax({
+            type: "put",
+            data: {
+                correctAnswer: answerid,
+            },
+            url: "./accept/" + questionid,
+            success: function (response) {
+                console.log(response);
+                location = location
+            }
+        });
+
+    })
+    setEvenets();
+    function setEvenets() {
+
+        $(".delete-answer").click(function (e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            console.log(id);
+            var element = $(this);
+
+            $.ajax({
+                type: "DELETE",
+                url: "../answers/" + id,
+                success: function (response) {
+                    console.log(response);
+                    element.parent().html(`
+                 <div class="alert alert-danger" role="alert">
+                     This answer was deleted
+                 </div>
+                 `)
+                }
+            });
+
+        })
+
+        $(".upvote").click(function (e) {
+            e.preventDefault();
+            var answerid = $(this).data("id");
+            var element = $(this);
+            console.log(answerid);
+            $.ajax({
+                type: "put",
+                data: {
+                    action: "upvote",
+                },
+                url: "../answers/vote/" + answerid,
+                success: function (response) {
+                    console.log(response);
+                    element.html("Up " + response.upvotes.length)
+                    element.parent().children(".downvote").html("Down " + response.downvotes.length)
+                }
+            });
+
+        })
+
+        $(".downvote").click(function (e) {
+            e.preventDefault();
+            var answerid = $(this).data("id");
+            var element = $(this);
+            console.log(answerid);
+            $.ajax({
+                type: "put",
+                data: {
+                    action: "downvote",
+                },
+                url: "../answers/vote/" + answerid,
+                success: function (response) {
+                    console.log(response);
+                    element.html("Down " + response.downvotes.length)
+                    element.parent().children(".upvote").html("Up " + response.upvotes.length)
+                }
+            });
+
+        })
+    }
+
+    $("#comment").submit(function (e) {
+        e.preventDefault();
+        var element = $(this)
+        data = {
+            "content": $("#content-comment").val(),
+            "question": $(this).data("id")
+        }
+        $.post("../comments", data, function (data) {
+            console.log(data);
+            element.parent().children(".comments-container").prepend("</hr><p>You commented: " + data.content)
+        });
+    });
+    $(".comment-answer").submit(function (e) {
+        e.preventDefault();
+        var element = $(this)
+        var questionid = $("#question-container").data("id");
+        data = {
+            "question": questionid,
+            "content": $("#" + $(this).data("id")).val(),
+            "answer": $(this).data("id")
+        }
+        $.post("../comments", data, function (data) {
+            console.log(data);
+            element.parent().children(".comments-container").prepend("</hr><p>You commented: " + data.content)
+        });
+    });
+
+
+</script>

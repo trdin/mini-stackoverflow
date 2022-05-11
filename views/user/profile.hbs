@@ -1,0 +1,34 @@
+<div class="card">
+    <div class="card-body">
+        <img src="{{imgPath}}" alt="Avatar" style="width: 200px; height: 200px; border-radius: 50%; ">
+
+
+        <h5 class="card-title">Profil uporabnika</h5>
+        <h5>Username: {{username}}</h5>
+        <h5>Email: {{email}}</h5>
+        <div>
+            <h5>Activity</h5>
+            <p>{{questions}} questions posted</p>
+            <p>{{answers}} answers posted</p>
+            <p>{{accepted}} ansewers accepted</p>
+
+
+        </div>
+        <br>
+        <a type="button" href="logout"></a><button type="button" class="btn btn-danger">Odjava</button> </a>
+
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form action="/users/profileImage" method="post" id="change-image" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="exampleFormControlFile1">Change Profil Photo</label>
+                <input type="file" name="image" class="form-control-file" id="exampleFormControlFile1" required>
+                <button type="submit" class="btn btn-primary mb-2 mt-5">Change Photo</button>
+
+            </div>
+        </form>
+    </div>
+
+</div>

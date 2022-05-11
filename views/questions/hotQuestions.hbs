@@ -1,0 +1,22 @@
+<h1>Hot Questions:</h1>
+{{#if searchParams}}
+<h2>Searched tag: {{searchParams}}</h2>
+{{/if}}
+{{#each questions}}
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-primary" role="alert">
+            Views in the last 5 minutes : {{hotViews}}
+        </div>
+        <h5 class="card-title">{{question}}</h5>
+        <p><img src="{{postedBy.imgPath}}" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%; ">
+            {{postedBy.username}}</p>
+        <p>Time Created: {{timeCreated}}</p>
+        {{#each tags}}
+        <span class="badge badge-secondary">{{this}}</span>
+        {{/each}}
+        <div><a href="/questions/{{id}}" class="btn btn-primary mt-3">Preberi Več</a></div>
+
+    </div>
+</div>
+{{/each}}
